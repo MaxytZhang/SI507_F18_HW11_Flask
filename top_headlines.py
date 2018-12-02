@@ -2,8 +2,20 @@ from flask import Flask, render_template
 import requests
 import json
 import secret
+import time
 
 app = Flask(__name__)
+
+h = time.localtime()[3]
+greet = "Hello,"
+if 19 < h < 24:
+    greet = "Good night"
+elif 15 < h < 20:
+    greet = "Good evening"
+elif 11 < h < 16:
+    greet = "Good afternoon"
+else:
+    greet = "Good morning"
 
 @app.route('/')
 def index():
@@ -28,7 +40,7 @@ def userTech(nm):
         headers.append(i)
         if count == 5:
             break
-    return render_template('user.html', name=nm, items=headers, section="technology")
+    return render_template('user.html', greet=greet, name=nm, items=headers, section="technology")
 
 @app.route('/user/<nm>/<section>')
 def userSection(nm, section):
@@ -48,7 +60,7 @@ def userSection(nm, section):
         headers.append(i)
         if count == 5:
             break
-    return render_template('user.html', name=nm, items=headers, section=section)
+    return render_template('user.html', greet=greet, name=nm, items=headers, section=section)
 
 if __name__ == '__main__':  
     print('starting Flask app', app.name)
